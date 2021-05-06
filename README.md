@@ -126,7 +126,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Currently supported Boards
 
-1. ESP32-S2-based boards, such as ESP32_S2_DEV, ESP32_S2_ Saola, etc
+1. ESP32-S2-based boards, such as ESP32_S2_DEV, ESP32_S2 Saola, etc
 
 ---
 
@@ -460,7 +460,7 @@ in loop(), using delay() function as an example. The elapsed time then is very u
 
 Before using any Timer, you have to make sure the Timer has not been used by any other purpose.
 
-`Timer0, Timer1, Timer2 and Timer3` are supported for ESP32.
+`Timer0, Timer1, Timer2 and Timer3` are supported for ESP32-S2.
 
 ---
 ---
@@ -807,7 +807,7 @@ While software timer, **programmed for 2s, is activated after 3.435s !!!**
 
 ```
 Starting ISR_Timer_Complex on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.2.0
+ESP32_S2_TimerInterrupt v1.3.0
 CPU Frequency = 240 MHz
 Starting ITimer OK, millis() = 3015
 [4415] 
@@ -860,7 +860,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.2.0
+ESP32_S2_TimerInterrupt v1.3.0
 CPU Frequency = 240 MHz
 ITimer0 called, millis() = 699
 Starting  ITimer0 OK, millis() = 702
@@ -903,7 +903,7 @@ ITimer0 called, millis() = 35006
 ---
 
 
-### 3. Change_Interval on ESP32S2_DEV
+### 3. Change_Interval on ESP32_S2_DEV
 
 The following is the sample terminal output when running example [Change_Interval](examples/Change_Interval) to demonstrate how to change Timer Interval on-the-fly
 
@@ -967,7 +967,7 @@ The following is the sample terminal output when running example [Argument_None]
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.2.0
+ESP32_S2_TimerInterrupt v1.3.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
 [TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
