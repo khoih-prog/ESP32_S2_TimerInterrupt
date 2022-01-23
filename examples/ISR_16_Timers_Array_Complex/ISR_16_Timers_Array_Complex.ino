@@ -16,20 +16,6 @@
   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
   Therefore, their executions are not blocked by bad-behaving functions / tasks.
   This important feature is absolutely necessary for mission-critical tasks.
-
-  Based on SimpleTimer - A timer library for Arduino.
-  Author: mromani@ottotecnica.com
-  Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
-
-  Version: 1.4.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.3.0   K Hoang      06/05/2019 Initial coding. Sync with ESP32TimerInterrupt v1.3.0
-  1.4.0   K.Hoang      01/06/2021 Add complex examples. Fix compiler errors due to conflict to some libraries.
 *****************************************************************************************************************************/
 /*
    Notes:
@@ -62,12 +48,17 @@
 // Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
 // Don't define TIMER_INTERRUPT_DEBUG > 2. Only for special ISR debugging only. Can hang the system.
 #define TIMER_INTERRUPT_DEBUG         0
-#define _TIMERINTERRUPT_LOGLEVEL_     0
+#define _TIMERINTERRUPT_LOGLEVEL_     3
 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "ESP32_S2_TimerInterrupt.h"
+
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "ESP32_S2_ISR_Timer.h"
 
 #include <SimpleTimer.h>              // https://github.com/jfturcot/SimpleTimer
+
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
 
 #ifndef LED_BUILTIN
   #define LED_BUILTIN       2
@@ -93,15 +84,11 @@ ESP32_ISR_Timer ISR_Timer;
 
 #define LED_TOGGLE_INTERVAL_MS        2000L
 
-void IRAM_ATTR TimerHandler(void * timerNo)
-{
-#if USING_ESP32_S2_TIMER_INTERRUPT
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 before processing ISR
-  TIMER_ISR_START(timerNo);
-  /////////////////////////////////////////////////////////
-#endif
-  
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
+bool IRAM_ATTR TimerHandler(void * timerNo)
+{ 
   static bool toggle  = false;
   static int timeRun  = 0;
 
@@ -117,12 +104,7 @@ void IRAM_ATTR TimerHandler(void * timerNo)
     toggle = !toggle;
   }
 
-  #if USING_ESP32_S2_TIMER_INTERRUPT
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 after processing ISR
-  TIMER_ISR_END(timerNo);
-  /////////////////////////////////////////////////////////
-#endif
+  return true;
 }
 
 /////////////////////////////////////////////////

@@ -16,20 +16,6 @@
   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
   Therefore, their executions are not blocked by bad-behaving functions / tasks.
   This important feature is absolutely necessary for mission-critical tasks.
-
-  Based on SimpleTimer - A timer library for Arduino.
-  Author: mromani@ottotecnica.com
-  Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
-
-  Version: 1.4.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.3.0   K Hoang      06/05/2019 Initial coding. Sync with ESP32TimerInterrupt v1.3.0
-  1.4.0   K.Hoang      01/06/2021 Add complex examples. Fix compiler errors due to conflict to some libraries.
 *****************************************************************************************************************************/
 /*
    Notes:
@@ -52,7 +38,7 @@
 // These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
 // Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         1
+#define TIMER_INTERRUPT_DEBUG         0
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 
 #include "ESP32_S2_TimerInterrupt.h"
@@ -61,66 +47,33 @@
   #define LED_BUILTIN       2         // Pin D2 mapped to pin GPIO2/ADC12 of ESP32, control on-board LED
 #endif
 
-#define PIN_D23           23        // Pin D23 mapped to pin GPIO23/VSPI_MOSI of ESP32
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
+#define PIN_D2              2         // Pin D2 mapped to pin GPIO2/ADC12/TOUCH2/LED_BUILTIN of ESP32
+#define PIN_D3              3         // Pin D3 mapped to pin GPIO3/RX0 of ESP32
 
-void IRAM_ATTR TimerHandler0(void * timerNo)
-{
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 before processing ISR
-  TIMER_ISR_START(timerNo);
-  /////////////////////////////////////////////////////////
-  
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
+bool IRAM_ATTR TimerHandler0(void * timerNo)
+{ 
   static bool toggle0 = false;
-  static bool started = false;
-
-  if (!started)
-  {
-    started = true;
-    pinMode(LED_BUILTIN, OUTPUT);
-  }
-
-#if (TIMER_INTERRUPT_DEBUG > 0)
-  Serial.print("ITimer0 called, millis() = "); Serial.println(millis());
-#endif
 
   //timer interrupt toggles pin LED_BUILTIN
   digitalWrite(LED_BUILTIN, toggle0);
   toggle0 = !toggle0;
 
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 after processing ISR
-  TIMER_ISR_END(timerNo);
-  /////////////////////////////////////////////////////////
+  return true;
 }
 
-void IRAM_ATTR TimerHandler1(void * timerNo)
-{
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 before processing ISR
-  TIMER_ISR_START(timerNo);
-  /////////////////////////////////////////////////////////
-  
+bool IRAM_ATTR TimerHandler1(void * timerNo)
+{ 
   static bool toggle1 = false;
-  static bool started = false;
-
-  if (!started)
-  {
-    started = true;
-    pinMode(PIN_D23, OUTPUT);
-  }
-
-#if (TIMER_INTERRUPT_DEBUG > 0)
-  Serial.print("ITimer1 called, millis() = "); Serial.println(millis());
-#endif
 
   //timer interrupt toggles outputPin
-  digitalWrite(PIN_D23, toggle1);
+  digitalWrite(PIN_D3, toggle1);
   toggle1 = !toggle1;
 
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 after processing ISR
-  TIMER_ISR_END(timerNo);
-  /////////////////////////////////////////////////////////
+  return true;
 }
 
 #define TIMER0_INTERVAL_MS        1000
@@ -135,6 +88,9 @@ ESP32Timer ITimer1(1);
 
 void setup()
 {
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(PIN_D3, OUTPUT);
+
   Serial.begin(115200);
   while (!Serial);
   

@@ -16,20 +16,6 @@
   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
   Therefore, their executions are not blocked by bad-behaving functions / tasks.
   This important feature is absolutely necessary for mission-critical tasks.
-
-  Based on SimpleTimer - A timer library for Arduino.
-  Author: mromani@ottotecnica.com
-  Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
-
-  Version: 1.4.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.3.0   K Hoang      06/05/2019 Initial coding. Sync with ESP32TimerInterrupt v1.3.0
-  1.4.0   K.Hoang      01/06/2021 Add complex examples. Fix compiler errors due to conflict to some libraries.
 *****************************************************************************************************************************/
 
 /*
@@ -53,64 +39,40 @@
 // These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
 // Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         1
+#define TIMER_INTERRUPT_DEBUG         0
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 
 #include "ESP32_S2_TimerInterrupt.h"
 
 #ifndef LED_BUILTIN
-#define LED_BUILTIN       2         // Pin D2 mapped to pin GPIO2/ADC12 of ESP32, control on-board LED
+  #define LED_BUILTIN       2         // Pin D2 mapped to pin GPIO2/ADC12 of ESP32, control on-board LED
 #endif
 
 #define PIN_D1            1         // Pin D1 mapped to pin GPIO1 of ESP32-S2
 
 
-void IRAM_ATTR TimerHandler0(void * timerNo)
-{
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 before processing ISR
-  TIMER_ISR_START(timerNo);
-  /////////////////////////////////////////////////////////
-  
+bool IRAM_ATTR TimerHandler0(void * timerNo)
+{ 
   static bool toggle0 = false;
   static bool started = false;
-
-#if (TIMER_INTERRUPT_DEBUG > 0)
-  Serial.print("ITimer0: millis() = "); Serial.println(millis());
-#endif
 
   //timer interrupt toggles pin LED_BUILTIN
   digitalWrite(LED_BUILTIN, toggle0);
   toggle0 = !toggle0;
-
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 after processing ISR
-  TIMER_ISR_END(timerNo);
-  /////////////////////////////////////////////////////////
+  
+  return true;
 }
 
-void IRAM_ATTR TimerHandler1(void * timerNo)
+bool IRAM_ATTR TimerHandler1(void * timerNo)
 {
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 before processing ISR
-  TIMER_ISR_START(timerNo);
-  /////////////////////////////////////////////////////////
-
   static bool toggle1 = false;
   static bool started = false;
-  
-#if (TIMER_INTERRUPT_DEBUG > 0)
-  Serial.print("ITimer1: millis() = "); Serial.println(millis());
-#endif
 
   //timer interrupt toggles outputPin
   digitalWrite(PIN_D1, toggle1);
   toggle1 = !toggle1;
 
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 after processing ISR
-  TIMER_ISR_END(timerNo);
-  /////////////////////////////////////////////////////////
+  return true;
 }
 
 #define TIMER0_INTERVAL_MS        1000

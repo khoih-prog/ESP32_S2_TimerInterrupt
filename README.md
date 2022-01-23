@@ -11,35 +11,18 @@
 
 ## Table of Contents
 
+* [Important Change from v1.5.0](#Important-Change-from-v150)
 * [Why do we need this ESP32_S2_TimerInterrupt library](#why-do-we-need-this-esp32_s2_timerinterrupt-library)
   * [Features](#features)
   * [Why using ISR-based Hardware Timer Interrupt is better](#why-using-isr-based-hardware-timer-interrupt-is-better)
   * [Currently supported Boards](#currently-supported-boards)
   * [Important Notes about ISR](#important-notes-about-isr)
-* [Changelog](#changelog)
-  * [Releases v1.4.0](#releases-v140)
-  * [Releases v1.3.0](#releases-v130)
+* [Changelog](changelog.md)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [Use Arduino Library Manager](#use-arduino-library-manager)
   * [Manual Install](#manual-install)
   * [VS Code & PlatformIO](#vs-code--platformio)
-* [HOWTO Install esp32 core for ESP32-S2 (Saola, AI-Thinker ESP-12K) and ESP32-C3 boards into Arduino IDE](#howto-install-esp32-core-for-esp32-s2-saola-ai-thinker-esp-12k-and-esp32-c3-boards-into-arduino-ide)
-  * [1. Save the original esp32 core](#1-save-the-original-esp32-core)
-  * [2. Install esp32 core v1.0.6](#2-install-esp32-core-v106)
-    * [2.1 Install esp32 core](#21-install-esp32-core)
-    * [2.2 Download latest zip with esp32-s2 support](#22-download-latest-zip-with-esp32-s2-support)
-    * [2.3 Unzip](#23-unzip)
-    * [2.3 Update esp32 core directories](#24-update-esp32-core-directories)
-  * [3. Download tools for ESP32-S2](#3-download-tools-for-esp32-s2) 
-    * [3.1 Download Toolchain for Xtensa (ESP32-S2) based on GCC](#31-download-toolchain-for-xtensa-esp32-s2-based-on-gcc)
-    * [3.2 Download esptool](#32-download-esptool)
-    * [3.3 Unzip](#33-unzip)
-  * [4. Update tools](#4-update-tools)
-    * [4.1 Update Toolchain](#41-update-toolchain)
-    * [4.2 Update esptool](#42-update-esptool)
-  * [5. Download tools for ESP32-C3](#5-download-tools-for-esp32-c3)
-  * [6. esp32-s2 WebServer Library Patch](#6-esp32-s2-webserver-library-patch)
 * [Note for Platform IO using ESP32 LittleFS](#note-for-platform-io-using-esp32-littlefs)
 * [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 * [HOWTO Use analogRead() with ESP32 running WiFi and/or BlueTooth (BT/BLE)](#howto-use-analogread-with-esp32-running-wifi-andor-bluetooth-btble)
@@ -51,28 +34,21 @@
 * [Examples](#examples)
   * [  1. Argument_None](examples/Argument_None)
   * [  2. Change_Interval](examples/Change_Interval).
-  * [  3. ISR_RPM_Measure](examples/ISR_RPM_Measure)
-  * [  4. ISR_Switch](examples/ISR_Switch)
-  * [  5. ISR_Timer_Complex](examples/ISR_Timer_Complex)
-  * [  6. ISR_Timer_Switch](examples/ISR_Timer_Switch)
-  * [  7. ISR_Timer_4_Switches](examples/ISR_Timer_4_Switches)
-  * [  8. ISR_Timer_Switches](examples/ISR_Timer_Switches)
-  * [  9. RPM_Measure](examples/RPM_Measure)
-  * [ 10. SwitchDebounce](examples/SwitchDebounce)
-  * [ 11. TimerInterruptTest](examples/TimerInterruptTest)
-  * [ 12. ISR_16_Timers_Array](examples/ISR_16_Timers_Array) **New**
-  * [ 13. ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) **New**
-* [Example ISR_Timer_Complex](#example-isr_timer_complex)
+  * [  3. RPM_Measure](examples/RPM_Measure)
+  * [  4. SwitchDebounce](examples/SwitchDebounce)
+  * [  5. TimerInterruptTest](examples/TimerInterruptTest)
+  * [  6. ISR_16_Timers_Array](examples/ISR_16_Timers_Array)
+  * [  7. ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
+  * [  8. **multiFileProject**](examples/multiFileProject) **New**
+* [Example ISR_16_Timers_Array_Complex](#example-ISR_16_Timers_Array_Complex)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
-  * [1. ISR_Timer_Complex on ESP32_S2_DEV](#1-isr_timer_complex-on-esp32_s2_dev)
-  * [2. TimerInterruptTest on ESP32_S2_DEV](#2-timerinterrupttest-on-esp32_s2_dev)
-  * [3. Change_Interval on ESP32_S2_DEV](#3-change_interval-on-esp32_s2_dev)
-  * [4. Argument_None on ESP32_S2_DEV](#4-argument_none-on-esp32_s2_dev)
-  * [5. ISR_16_Timers_Array_Complex on ESP32_S2_DEV](#5-isr_16_timers_array_complex-on-esp32_s2_dev)
-  * [6. ISR_16_Timers_Array on ESP32_S2_DEV](#6-isr_16_timers_array-on-esp32_s2_dev)
+  * [1. TimerInterruptTest on ESP32_S2_DEV](#1-timerinterrupttest-on-esp32_s2_dev)
+  * [2. Change_Interval on ESP32_S2_DEV](#2-change_interval-on-esp32_s2_dev)
+  * [3. Argument_None on ESP32_S2_DEV](#3-argument_none-on-esp32_s2_dev)
+  * [4. ISR_16_Timers_Array_Complex on ESP32_S2_DEV](#4-isr_16_timers_array_complex-on-esp32_s2_dev)
+  * [5. ISR_16_Timers_Array on ESP32_S2_DEV](#5-isr_16_timers_array-on-esp32_s2_dev)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
-* [Releases](#releases)
 * [Issues](#issues)
 * [TO DO](#to-do)
 * [DONE](#done)
@@ -83,6 +59,10 @@
 
 ---
 ---
+
+### Important Change from v1.5.0
+
+Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 
 ### Why do we need this [ESP32_S2_TimerInterrupt library](https://github.com/khoih-prog/ESP32_S2_TimerInterrupt)
 
@@ -145,26 +125,10 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ---
 ---
 
-## Changelog
-
-### Releases v1.4.0
-
-1. Fix compiler errors due to conflict to some libraries.
-2. Add complex examples.
-
-### Releases v1.3.0
-
-1. Initial coding to support ESP32-S2
-2. Sync with [ESP32TimerInterrupt library v1.3.0](https://github.com/khoih-prog/ESP32TimerInterrupt)
-
-
----
----
-
 ## Prerequisites
 
-1. [`Arduino IDE 1.8.15+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`ESP32-S2/C3 Core 1.0.6+`](https://github.com/espressif/arduino-esp32) for ESP32-S2/C3-based boards. Must follow [HOWTO Install esp32 core for ESP32-S2 (Saola, AI-Thinker ESP-12K) and ESP32-C3 boards into Arduino IDE](#howto-install-esp32-core-for-esp32-s2-saola-ai-thinker-esp-12k-and-esp32-c3-boards-into-arduino-ide).
+1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
+2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-S2-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
 
 ---
 ---
@@ -196,162 +160,6 @@ Another way to install is to:
 ---
 ---
 
-## HOWTO Install esp32 core for ESP32-S2 (Saola, AI-Thinker ESP-12K) and ESP32-C3 boards into Arduino IDE
-
-
-These are instructions demonstrating the steps to install esp32-s2/c3 core on Ubuntu machines. For Windows or other OS'es, just follow the the similar principles and steps.
-
-* Windows 10, follows these steps in [Steps to install Arduino ESP32 support on Windows](https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/windows.md) 
-
-* Mac OS, follows these steps in [Installation instructions for Mac OS](https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/mac.md)
-
-* Fedora, follows these steps in [Installation instructions for Fedora](https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/fedora.md)
-
-* openSUSE, follows these steps in [Installation instructions for openSUSE](https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/opensuse.md)
-
-* You can also try to add [package_esp32_dev_index.json](https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_dev_index.json) into Arduino IDE `File - Preferences - Additional Boards Manager URLs` 
-
-
-```
-https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_dev_index.json
-```
-
-and have Board Manager auto-install the **development** esp32 core. For example : esp32 core `v2.0.0-alpha1`
-
-
----
-
-If you're already successful in testing the core, after installing by using the above procedures, you don't need to follows the hereafter manual steps.
-
----
-
-Assuming you already installed Arduino IDE ESP32 core and the installed directory is
-
-`/home/your_account/.arduino15/packages/esp32`
-
-
-### 1. Save the original esp32 core
-
-First, copy the whole original esp32 core to another safe place. Then delete all the sub-directories of
-
-`/home/your_account/.arduino15/packages/esp32/hardware/esp32/1.0.4`
-
----
-
-
-### 2. Install esp32 core v1.0.6
-
-#### 2.1 Install esp32 core
-
-Just use Arduino IDE Board Manager to install [ESP32 Arduino Release 1.0.6 based on ESP-IDF v3.3.5](https://github.com/espressif/arduino-esp32/releases/tag/1.0.6). This official v1.06 core doesn't have esp32-s2/s3 support. You have to download and use the latest master branch.
-
-
-#### 2.2 Download latest zip with esp32-s2 support
-
-As of **April 16th 2021**, the **esp32-s2/c3** board support has been included in master branch of esp32 core. Download [**esp32 core, master branch**](https://github.com/espressif/arduino-esp32) in the zip format.
-
-#### 2.3 Unzip
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/main/pics/esp32_s2_Core_Unzipped.png">
-</p>
-
-#### 2.4 Update esp32 core directories
-
-Copy all subdirectories of esp32 core into `/home/your_account/.arduino15/packages/esp32/hardware/esp32/1.0.6`
-
-
----
-
-### 3 Download tools for ESP32-S2
-
-
-#### 3.1 Download Toolchain for Xtensa (ESP32-S2) based on GCC
-
-Download [**esp32-s2 Toolchain**](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/api-guides/tools/idf-tools.html#xtensa-esp32s2-elf) corresponding to your environment (linux-amd64, win64, etc.).
-
-For example `xtensa-esp32s2-elf-gcc8_4_0-esp-2020r3-linux-amd64.tar.gz`, then un-archive.
-
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/main/pics/esp32_s2_Toolchain.png">
-</p>
-
-#### 3.2 Download esptool
-
-
-Download [esptool](https://github.com/espressif/esptool/releases) int the `zip` format:
-
-`esptool-3.0.zip`
-
-#### 3.3 Unzip
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/main/pics/esp32_s2_esptool.png">
-</p>
-
----
-
-### 4. Update tools
-
-#### 4.1 Update Toolchain
-
-Copy whole `xtensa-esp32s2-elf` directory into `/home/your_account/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools`
-
-
-#### 4.2 Update esptool
-
-Rename `esptool-3.0` directory to `esptool`
-
-
-Copy whole `esptool` directory into `/home/your_account/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools`
-
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/main/pics/esp32_s2_tools.png">
-</p>
-
-
-### 5 Download tools for ESP32-C3
-
-Download [**esp32-c3 Toolchain**](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/api-guides/tools/idf-tools.html#riscv32-esp-elf) corresponding to your environment (linux-amd64, win64, etc.).
-
-For example`riscv32-esp-elf-gcc8_4_0-crosstool-ng-1.24.0-123-g64eb9ff-linux-amd64.tar.gz`, then un-archive.
-
-Then using the similar steps as in
-
-* [3. Download tools for ESP32-S2](#3-download-tools-for-esp32-s2) 
-  * [3.1 Download Toolchain for Xtensa (ESP32-S2) based on GCC](#31-download-toolchain-for-xtensa-esp32-s2-based-on-gcc)
-  * [3.2 Download esptool](#32-download-esptool)
-  * [3.3 Unzip](#33-unzip)
-* [4. Update tools](#4-update-tools)
-  * [4.1 Update Toolchain](#41-update-toolchain)
-  * [4.2 Update esptool](#42-update-esptool)
-
-then copy whole `riscv32-esp-elf` directory into `/home/your_account/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools`
-
-
-### 6. esp32-s2 WebServer Library Patch
-
-#### Necessary only for esp32 core v1.0.6-
-
-If you haven't installed a new version with [WebServer.handleClient delay PR #4350](https://github.com/espressif/arduino-esp32/pull/4350) or haven't applied the above mentioned PR, you have to use the following patch.
-
-
-**To be able to run Config Portal on ESP32-S2 boards**, you have to copy the files in [esp32-s2 WebServer Patch](esp32s2_WebServer_Patch/) directory into esp32-s2 WebServer library directory (~/.arduino15/packages/esp32/hardware/esp32/1.0.4/libraries/WebServer).
-
-Supposing the esp32-s2 version is 1.0.4, these files `WebServer.h/cpp` must be copied into the directory to replace:
-
-- `~/.arduino15/packages/esp32/hardware/esp32/1.0.4/libraries/WebServer/src/WebServer.h`
-- `~/.arduino15/packages/esp32/hardware/esp32/1.0.4/libraries/WebServer/src/WebServer.cpp`
-
-
----
-
-That's it. You're now ready to compile and test for **ESP32-S2 and ESP32-C3** now
-
----
----
 
 ### Note for Platform IO using ESP32 LittleFS
 
@@ -382,24 +190,26 @@ Thanks to [Roshan](https://github.com/solroshan) to report the issue in [Error e
 
 ### HOWTO Fix `Multiple Definitions` Linker Error
 
-The current library implementation, using **xyz-Impl.h instead of standard xyz.cpp**, possibly creates certain `Multiple Definitions` Linker error in certain use cases. Although it's simple to just modify several lines of code, either in the library or in the application, the library is adding 2 more source directories
+The current library implementation, using `xyz-Impl.h` instead of standard `xyz.cpp`, possibly creates certain `Multiple Definitions` Linker error in certain use cases.
 
-1. **scr_h** for new h-only files
-2. **src_cpp** for standard h/cpp files
+You can include these `.hpp` or `.h` files
 
-besides the standard **src** directory.
+```
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
+#include "ESP32_S2_TimerInterrupt.h"     //https://github.com/khoih-prog/ESP32_S2_TimerInterrupt
 
-To use the **old standard cpp** way, locate this library' directory, then just 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
+#include "ESP32_S2_ISR_Timer.hpp"         //https://github.com/khoih-prog/ESP32_S2_TimerInterrupt
+```
 
-1. **Delete the all the files in src directory.**
-2. **Copy all the files in src_cpp directory into src.**
-3. Close then reopen the application code in Arduino IDE, etc. to recompile from scratch.
+in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-To re-use the **new h-only** way, just 
+```
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include "ESP32_S2_ISR_Timer.h"           //https://github.com/khoih-prog/ESP32_S2_TimerInterrupt
+```
 
-1. **Delete the all the files in src directory.**
-2. **Copy the files in src_h directory into src.**
-3. Close then reopen the application code in Arduino IDE, etc. to recompile from scratch.
+Check the new [**multiFileProject** example](examples/multiFileProject) for a `HOWTO` demo.
 
 ---
 ---
@@ -478,23 +288,18 @@ Before using any Timer, you have to make sure the Timer has not been used by any
 ### Examples: 
 
  1. [Argument_None](examples/Argument_None)
- 2. [ISR_RPM_Measure](examples/ISR_RPM_Measure)
- 3. [ISR_Switch](examples/ISR_Switch) 
- 4. [ISR_Timer_4_Switches](examples/ISR_Timer_4_Switches) 
- 5. [ISR_Timer_Complex](examples/ISR_Timer_Complex)
- 6. [ISR_Timer_Switch](examples/ISR_Timer_Switch)
- 7. [ISR_Timer_Switches](examples/ISR_Timer_Switches) 
- 8. [RPM_Measure](examples/RPM_Measure)
- 9. [SwitchDebounce](examples/SwitchDebounce)
-10. [TimerInterruptTest](examples/TimerInterruptTest)
-11. [**Change_Interval**](examples/Change_Interval).
-12. [**ISR_16_Timers_Array**](examples/ISR_16_Timers_Array)
-13. [**ISR_16_Timers_Array_Complex**](examples/ISR_16_Timers_Array_Complex).
+ 2. [RPM_Measure](examples/RPM_Measure)
+ 3. [SwitchDebounce](examples/SwitchDebounce)
+ 4. [TimerInterruptTest](examples/TimerInterruptTest)
+ 5. [**Change_Interval**](examples/Change_Interval).
+ 6. [**ISR_16_Timers_Array**](examples/ISR_16_Timers_Array)
+ 7. [**ISR_16_Timers_Array_Complex**](examples/ISR_16_Timers_Array_Complex)
+ 8. [**multiFileProject**](examples/multiFileProject). **New**
 
 ---
 ---
 
-### Example [ISR_Timer_Complex](examples/ISR_Timer_Complex)
+### Example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
 
 ```
 #if !( ARDUINO_ESP32S2_DEV || ARDUINO_FEATHERS2 || ARDUINO_ESP32S2_THING_PLUS || ARDUINO_MICROS2 || \
@@ -503,54 +308,38 @@ Before using any Timer, you have to make sure the Timer has not been used by any
   #error This code is intended to run on the ESP32-S2 platform! Please check your Tools->Board setting.
 #endif
 
-#define BLYNK_PRINT Serial
-
-//#define BLYNK_DEBUG
-#ifdef BLYNK_DEBUG
-  #undef BLYNK_DEBUG
-#endif
-
-#include <WiFi.h>
-
-#define USE_SSL     false
-
-#if USE_SSL
-  #include <BlynkSimpleEsp32_SSL.h>
-  #define BLYNK_HARDWARE_PORT     9443
-#else
-  #include <BlynkSimpleEsp32.h>
-  #define BLYNK_HARDWARE_PORT     8080
-#endif
-
-#define USE_LOCAL_SERVER    true
-
-// If local server
-#if USE_LOCAL_SERVER
-  //char blynk_server[]   = "account.duckdns.org";
-  char blynk_server[]   = "192.168.2.110";
-#else
-  char blynk_server[]   = "";
-#endif
-
-char auth[]     = "****";
-char ssid[]     = "****";
-char pass[]     = "****";
-
-// These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"
+// These define's must be placed at the beginning before #include "ESP32TimerInterrupt.h"
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
 // Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         1
-#define _TIMERINTERRUPT_LOGLEVEL_     0
+// Don't define TIMER_INTERRUPT_DEBUG > 2. Only for special ISR debugging only. Can hang the system.
+#define TIMER_INTERRUPT_DEBUG         0
+#define _TIMERINTERRUPT_LOGLEVEL_     3
 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "ESP32_S2_TimerInterrupt.h"
+
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "ESP32_S2_ISR_Timer.h"
 
-#define TIMER_INTERVAL_MS         100
-#define HW_TIMER_INTERVAL_MS      50
+#include <SimpleTimer.h>              // https://github.com/jfturcot/SimpleTimer
 
-#define WIFI_TIMEOUT              20000L
+// Don't use PIN_D1 in core v2.0.0 and v2.0.1. Check https://github.com/espressif/arduino-esp32/issues/5868
 
-volatile uint32_t lastMillis = 0;
+#ifndef LED_BUILTIN
+  #define LED_BUILTIN       2
+#endif
+
+#ifndef LED_BLUE
+  #define LED_BLUE          25
+#endif
+
+#ifndef LED_RED
+  #define LED_RED           27
+#endif
+
+#define HW_TIMER_INTERVAL_US      10000L
+
+volatile uint32_t startMillis = 0;
 
 // Init ESP32 timer 1
 ESP32Timer ITimer(1);
@@ -558,251 +347,296 @@ ESP32Timer ITimer(1);
 // Init ESP32_ISR_Timer
 ESP32_ISR_Timer ISR_Timer;
 
-// Ibit Blynk Timer
-BlynkTimer blynkTimer;
+#define LED_TOGGLE_INTERVAL_MS        2000L
 
-#ifndef LED_BUILTIN
-  #define LED_BUILTIN       2         // Pin D2 mapped to pin GPIO2/ADC12 of ESP32, control on-board LED
-#endif
-
-#define LED_TOGGLE_INTERVAL_MS        5000L
-
-void IRAM_ATTR TimerHandler(void * timerNo)
-{
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 before processing ISR
-  TIMER_ISR_START(timerNo);
-  /////////////////////////////////////////////////////////
-  
+// With core v2.0.0+, you can't use Serial.print/println in ISR or crash.
+// and you can't use float calculation inside ISR
+// Only OK in core v1.0.6-
+bool IRAM_ATTR TimerHandler(void * timerNo)
+{ 
   static bool toggle  = false;
-  static bool started = false;
   static int timeRun  = 0;
 
   ISR_Timer.run();
 
-  // Toggle LED every LED_TOGGLE_INTERVAL_MS = 5000ms = 5s
-  if (++timeRun == (LED_TOGGLE_INTERVAL_MS / HW_TIMER_INTERVAL_MS) )
+  // Toggle LED every LED_TOGGLE_INTERVAL_MS = 2000ms = 2s
+  if (++timeRun == ((LED_TOGGLE_INTERVAL_MS * 1000) / HW_TIMER_INTERVAL_US) )
   {
     timeRun = 0;
-
-    if (!started)
-    {
-      started = true;
-      pinMode(LED_BUILTIN, OUTPUT);
-    }
 
     //timer interrupt toggles pin LED_BUILTIN
     digitalWrite(LED_BUILTIN, toggle);
     toggle = !toggle;
   }
 
-  /////////////////////////////////////////////////////////
-  // Always call this for ESP32-S2 after processing ISR
-  TIMER_ISR_END(timerNo);
-  /////////////////////////////////////////////////////////
+  return true;
 }
 
-// In ESP32, avoid doing something fancy in ISR, for example complex Serial.print with String() argument
-// The pure simple Serial.prints here are just for demonstration and testing. Must be eliminate in working environment
-// Or you can get this run-time error / crash : "Guru Meditation Error: Core 1 panic'ed (Cache disabled but cached memory region accessed)"
-void IRAM_ATTR doingSomething2s()
+/////////////////////////////////////////////////
+
+#define NUMBER_ISR_TIMERS         16
+
+typedef void (*irqCallback)  ();
+
+/////////////////////////////////////////////////
+
+#define USE_COMPLEX_STRUCT      true
+
+#if USE_COMPLEX_STRUCT
+
+typedef struct
 {
-#if (TIMER_INTERRUPT_DEBUG > 0)  
-  static unsigned long previousMillis = lastMillis;
-  unsigned long deltaMillis = millis() - previousMillis;
-  
-  Serial.print("2s: D ms = "); Serial.println(deltaMillis);
-  
-  previousMillis = millis();
-#endif
+  irqCallback   irqCallbackFunc;
+  uint32_t      TimerInterval;
+  unsigned long deltaMillis;
+  unsigned long previousMillis;
+} ISRTimerData;
 
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  Serial.print("2s: core "); Serial.println(xPortGetCoreID());
-#endif
-}
-
-// In ESP32, avoid doing something fancy in ISR, for example complex Serial.print with String() argument
+// In NRF52, avoid doing something fancy in ISR, for example Serial.print()
 // The pure simple Serial.prints here are just for demonstration and testing. Must be eliminate in working environment
-// Or you can get this run-time error / crash : "Guru Meditation Error: Core 1 panic'ed (Cache disabled but cached memory region accessed)"
-void IRAM_ATTR doingSomething5s()
+// Or you can get this run-time error / crash
+
+void doingSomething(int index);
+
+#else
+
+volatile unsigned long deltaMillis    [NUMBER_ISR_TIMERS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+volatile unsigned long previousMillis [NUMBER_ISR_TIMERS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+// You can assign any interval for any timer here, in milliseconds
+uint32_t TimerInterval[NUMBER_ISR_TIMERS] =
 {
-#if (TIMER_INTERRUPT_DEBUG > 0)  
-  static unsigned long previousMillis = lastMillis;
-  unsigned long deltaMillis = millis() - previousMillis;
-  
-  Serial.print("5s: D ms = "); Serial.println(deltaMillis);
-  
-  previousMillis = millis();
-#endif
-  
-#if (TIMER_INTERRUPT_DEBUG > 1)
-  Serial.print("5s: core "); Serial.println(xPortGetCoreID());
-#endif
+  5000L,  10000L,  15000L,  20000L,  25000L,  30000L,  35000L,  40000L,
+  45000L, 50000L,  55000L,  60000L,  65000L,  70000L,  75000L,  80000L
+};
+
+void doingSomething(int index)
+{
+  unsigned long currentMillis  = millis();
+
+  deltaMillis[index]    = currentMillis - previousMillis[index];
+  previousMillis[index] = currentMillis;
 }
 
-// In ESP32, avoid doing something fancy in ISR, for example complex Serial.print with String() argument
-// The pure simple Serial.prints here are just for demonstration and testing. Must be eliminate in working environment
-// Or you can get this run-time error / crash : "Guru Meditation Error: Core 1 panic'ed (Cache disabled but cached memory region accessed)"
-void IRAM_ATTR doingSomething11s()
-{
-#if (TIMER_INTERRUPT_DEBUG > 0)  
-  static unsigned long previousMillis = lastMillis;
-  unsigned long deltaMillis = millis() - previousMillis;
-  
-  Serial.print("11s: D ms = "); Serial.println(deltaMillis);
-
-  previousMillis = millis();
 #endif
+
+////////////////////////////////////
+// Shared
+////////////////////////////////////
+
+void doingSomething0()
+{
+  doingSomething(0);
 }
 
-// In ESP32, avoid doing something fancy in ISR, for example complex Serial.print with String() argument
-// The pure simple Serial.prints here are just for demonstration and testing. Must be eliminate in working environment
-// Or you can get this run-time error / crash : "Guru Meditation Error: Core 1 panic'ed (Cache disabled but cached memory region accessed)"
-void IRAM_ATTR doingSomething101s()
+void doingSomething1()
 {
-#if (TIMER_INTERRUPT_DEBUG > 0)  
-  static unsigned long previousMillis = lastMillis;
-  unsigned long deltaMillis = millis() - previousMillis;
-  
-  Serial.print("101s: D ms = "); Serial.println(deltaMillis);
-
-  previousMillis = millis();
-#endif
+  doingSomething(1);
 }
 
-#define BLYNK_TIMER_MS        2000L
+void doingSomething2()
+{
+  doingSomething(2);
+}
+
+void doingSomething3()
+{
+  doingSomething(3);
+}
+
+void doingSomething4()
+{
+  doingSomething(4);
+}
+
+void doingSomething5()
+{
+  doingSomething(5);
+}
+
+void doingSomething6()
+{
+  doingSomething(6);
+}
+
+void doingSomething7()
+{
+  doingSomething(7);
+}
+
+void doingSomething8()
+{
+  doingSomething(8);
+}
+
+void doingSomething9()
+{
+  doingSomething(9);
+}
+
+void doingSomething10()
+{
+  doingSomething(10);
+}
+
+void doingSomething11()
+{
+  doingSomething(11);
+}
+
+void doingSomething12()
+{
+  doingSomething(12);
+}
+
+void doingSomething13()
+{
+  doingSomething(13);
+}
+
+void doingSomething14()
+{
+  doingSomething(14);
+}
+
+void doingSomething15()
+{
+  doingSomething(15);
+}
+
+#if USE_COMPLEX_STRUCT
+
+ISRTimerData curISRTimerData[NUMBER_ISR_TIMERS] =
+{
+  //irqCallbackFunc, TimerInterval, deltaMillis, previousMillis
+  { doingSomething0,    5000L, 0, 0 },
+  { doingSomething1,   10000L, 0, 0 },
+  { doingSomething2,   15000L, 0, 0 },
+  { doingSomething3,   20000L, 0, 0 },
+  { doingSomething4,   25000L, 0, 0 },
+  { doingSomething5,   30000L, 0, 0 },
+  { doingSomething6,   35000L, 0, 0 },
+  { doingSomething7,   40000L, 0, 0 },
+  { doingSomething8,   45000L, 0, 0 },
+  { doingSomething9,   50000L, 0, 0 },
+  { doingSomething10,  55000L, 0, 0 },
+  { doingSomething11,  60000L, 0, 0 },
+  { doingSomething12,  65000L, 0, 0 },
+  { doingSomething13,  70000L, 0, 0 },
+  { doingSomething14,  75000L, 0, 0 },
+  { doingSomething15,  80000L, 0, 0 }
+};
+
+void doingSomething(int index)
+{
+  unsigned long currentMillis  = millis();
+
+  curISRTimerData[index].deltaMillis    = currentMillis - curISRTimerData[index].previousMillis;
+  curISRTimerData[index].previousMillis = currentMillis;
+}
+
+#else
+
+irqCallback irqCallbackFunc[NUMBER_ISR_TIMERS] =
+{
+  doingSomething0,  doingSomething1,  doingSomething2,  doingSomething3,
+  doingSomething4,  doingSomething5,  doingSomething6,  doingSomething7,
+  doingSomething8,  doingSomething9,  doingSomething10, doingSomething11,
+  doingSomething12, doingSomething13, doingSomething14, doingSomething15
+};
+
+#endif
+///////////////////////////////////////////
+
+#define SIMPLE_TIMER_MS        2000L
+
+// Init SimpleTimer
+SimpleTimer simpleTimer;
 
 // Here is software Timer, you can do somewhat fancy stuffs without many issues.
 // But always avoid
 // 1. Long delay() it just doing nothing and pain-without-gain wasting CPU power.Plan and design your code / strategy ahead
 // 2. Very long "do", "while", "for" loops without predetermined exit time.
-void blynkDoingSomething2s()
+void simpleTimerDoingSomething2s()
 {
-  static unsigned long previousMillis = lastMillis;
-  
-  Serial.print(F("blynkDoingSomething2s: Delta programmed ms = ")); Serial.print(BLYNK_TIMER_MS);
-  Serial.print(F(", actual = ")); Serial.println(millis() - previousMillis);
-  
-  previousMillis = millis();
+  static unsigned long previousMillis = startMillis;
+
+  unsigned long currMillis = millis();
+
+  Serial.print(F("SimpleTimer : ")); Serial.print(SIMPLE_TIMER_MS / 1000);
+  Serial.print(F(", ms : ")); Serial.print(currMillis);
+  Serial.print(F(", Dms : ")); Serial.println(currMillis - previousMillis);
+
+  for (uint16_t i = 0; i < NUMBER_ISR_TIMERS; i++)
+  {
+#if USE_COMPLEX_STRUCT
+    Serial.print(F("Timer : ")); Serial.print(i);
+    Serial.print(F(", programmed : ")); Serial.print(curISRTimerData[i].TimerInterval);
+    Serial.print(F(", actual : ")); Serial.println(curISRTimerData[i].deltaMillis);
+#else
+    Serial.print(F("Timer : ")); Serial.print(i);
+    Serial.print(F(", programmed : ")); Serial.print(TimerInterval[i]);
+    Serial.print(F(", actual : ")); Serial.println(deltaMillis[i]);
+#endif
+  }
+
+  previousMillis = currMillis;
 }
 
 void setup()
 {
-  // Just a temporary hack
-  // ESP32 WiFi is still buggy. By moving it up here, we can avoid interfering / interacting problem with other ISRs
-  WiFi.begin(ssid, pass);
-
-  delay(2000);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.print(F("\nStarting ISR_Timer_Complex on ")); Serial.println(ARDUINO_BOARD);
+  delay(2000);
+
+  Serial.print(F("\nStarting ISR_16_Timers_Array_Complex on ")); Serial.println(ARDUINO_BOARD);
   Serial.println(ESP32_S2_TIMER_INTERRUPT_VERSION);
   Serial.print(F("CPU Frequency = ")); Serial.print(F_CPU / 1000000); Serial.println(F(" MHz"));
-  
-  // You need this timer for non-critical tasks. Avoid abusing ISR if not absolutely necessary.
-  blynkTimer.setInterval(BLYNK_TIMER_MS, blynkDoingSomething2s);
-
-
-  // Using ESP32  => 80 / 160 / 240MHz CPU clock ,
-  // For 64-bit timer counter
-  // For 16-bit timer prescaler up to 1024
 
   // Interval in microsecs
-  if (ITimer.attachInterruptInterval(HW_TIMER_INTERVAL_MS * 1000, TimerHandler))
+  if (ITimer.attachInterruptInterval(HW_TIMER_INTERVAL_US, TimerHandler))
   {
-    lastMillis = millis();
-    Serial.print(F("Starting ITimer OK, millis() = ")); Serial.println(lastMillis);
+    startMillis = millis();
+    Serial.print(F("Starting ITimer OK, millis() = ")); Serial.println(startMillis);
   }
   else
-    Serial.println(F("Can't set ITimer correctly. Select another freq. or interval"));
+    Serial.println(F("Can't set ITimer. Select another freq. or timer"));
 
+  startMillis = millis();
 
   // Just to demonstrate, don't use too many ISR Timers if not absolutely necessary
-  ISR_Timer.setInterval(2000L, doingSomething2s);
-  ISR_Timer.setInterval(5000L, doingSomething5s);
-  ISR_Timer.setInterval(11000L, doingSomething11s);
-  ISR_Timer.setInterval(101000L, doingSomething101s);
-
-  unsigned long startWiFi = millis();
-
-  do
+  // You can use up to 16 timer for each ISR_Timer
+  for (uint16_t i = 0; i < NUMBER_ISR_TIMERS; i++)
   {
-    delay(200);
-    if ( (WiFi.status() == WL_CONNECTED) || (millis() > startWiFi + WIFI_TIMEOUT) )
-      break;
-  } while (WiFi.status() != WL_CONNECTED);
+#if USE_COMPLEX_STRUCT
+    curISRTimerData[i].previousMillis = startMillis;
+    ISR_Timer.setInterval(curISRTimerData[i].TimerInterval, curISRTimerData[i].irqCallbackFunc);
+#else
+    previousMillis[i] = millis();
+    ISR_Timer.setInterval(TimerInterval[i], irqCallbackFunc[i]);
+#endif
+  }
 
-  Blynk.config(auth, blynk_server, BLYNK_HARDWARE_PORT);
-  Blynk.connect();
-
-  if (Blynk.connected())
-    Serial.println(F("Blynk connected"));
-  else
-    Serial.println(F("Blynk not connected yet"));
+  // You need this timer for non-critical tasks. Avoid abusing ISR if not absolutely necessary.
+  simpleTimer.setInterval(SIMPLE_TIMER_MS, simpleTimerDoingSomething2s);
 }
 
-#define BLOCKING_TIME_MS      5000L
+#define BLOCKING_TIME_MS      10000L
 
 void loop()
 {
-  static bool needWiFiBegin = true;
-
-  Blynk.run();
-
-  // Blynk.run() in ESP32 doesn't reconnect automatically without below code with WiFi.begin(ssid, pass);
-  if (!Blynk.connected())
-  {
-    if (WiFi.status() != WL_CONNECTED)
-    {
-      unsigned long startWiFi = millis();
-      Serial.println(F("WiFi not connected. Reconnect"));
-
-      // Need to run again once per conn. lost
-      if (needWiFiBegin)
-      {
-        Serial.println(F("WiFi begin again"));
-        WiFi.begin(ssid, pass);
-        needWiFiBegin = false;
-      }
-
-      do
-      {
-        delay(200);
-        if ( (WiFi.status() == WL_CONNECTED) || (millis() > startWiFi + WIFI_TIMEOUT) )
-        {
-          // There is ESP32 bug, if WiFi+Blynk connected, then lost WiFi+ Internet
-          // ESP32 can't reconect, even if we place WiFi.begin() again in loop()
-          // The _network_event_task(void * arg) in WiFiGeneric.cpp is just waiting forever for data
-          ESP.restart();
-        }
-      } while (WiFi.status() != WL_CONNECTED);
-    }
-    else
-    {
-      // Ready for next conn. lost
-      Serial.println(F("reset needWiFiBegin"));
-      needWiFiBegin = true;
-      Blynk.config(auth, blynk_server, BLYNK_HARDWARE_PORT);
-      Blynk.connect();
-    }
-  }
-  else
-  {
-    // Ready for next conn. lost
-    //needWiFiBegin = true;
-  }
-
   // This unadvised blocking task is used to demonstrate the blocking effects onto the execution and accuracy to Software timer
-  // You see the time elapse of ESP32_ISR_Timer still accurate, whereas very unaccurate for Software Timer
+  // You see the time elapse of ISR_Timer still accurate, whereas very unaccurate for Software Timer
   // The time elapse for 2000ms software timer now becomes 3000ms (BLOCKING_TIME_MS)
-  // While that of ESP32_ISR_Timer is still prefect.
+  // While that of ISR_Timer is still prefect.
   delay(BLOCKING_TIME_MS);
 
   // You need this Software timer for non-critical tasks. Avoid abusing ISR if not absolutely necessary
   // You don't need to and never call ISR_Timer.run() here in the loop(). It's already handled by ISR timer.
-  blynkTimer.run();
+  simpleTimer.run();
 }
 ```
 ---
@@ -810,224 +644,119 @@ void loop()
 
 ### Debug Terminal Output Samples
 
-### 1. ISR_Timer_Complex on ESP32_S2_DEV
-
-The following is the sample terminal output when running example [ISR_Timer_Complex](examples/ISR_Timer_Complex) to demonstrate the accuracy of ISR Hardware Timer, **especially when system is very busy**.  The ISR timer is **programmed for 2s, is activated exactly after 2.000s !!!**
-
-While software timer, **programmed for 2s, is activated after 3.435s !!!**
-
-```
-Starting ISR_Timer_Complex on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.4.0
-CPU Frequency = 240 MHz
-Starting ITimer OK, millis() = 3015
-[4415] 
-    ___  __          __
-   / _ )/ /_ _____  / /__
-  / _  / / // / _ \/  '_/
- /____/_/\_, /_//_/_/\_\
-        /___/ v0.6.1 on ESP32
-
-[4450] Ready (ping: 4ms).
-Blynk connected
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-2s: D ms = 2000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 6508
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-11s: D ms = 11000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5005
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-2s: D ms = 2000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5006
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5005
-2s: D ms = 2000
-11s: D ms = 11000
-2s: D ms = 2000
-5s: D ms = 5000
-2s: D ms = 2000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5006
-2s: D ms = 2000
-2s: D ms = 2000
-5s: D ms = 5000
-blynkDoingSomething2s: Delta programmed ms = 2000, actual = 5005
-2s: D ms = 2000
-11s: D ms = 11000
-```
-
----
-
-### 2. TimerInterruptTest on ESP32_S2_DEV
+### 1. TimerInterruptTest on ESP32_S2_DEV
 
 The following is the sample terminal output when running example [TimerInterruptTest](examples/TimerInterruptTest) to demonstrate how to start/stop Hardware Timers.
 
 ```
+
 Starting TimerInterruptTest on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.4.0
+ESP32_S2_TimerInterrupt v1.5.0
 CPU Frequency = 240 MHz
-ITimer0 called, millis() = 699
-Starting  ITimer0 OK, millis() = 702
-ITimer1 called, millis() = 705
-Starting  ITimer1 OK, millis() = 708
-ITimer0 called, millis() = 1699
-ITimer0 called, millis() = 2699
-ITimer0 called, millis() = 3699
-ITimer1 called, millis() = 3702
-ITimer0 called, millis() = 4699
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 0, _timerGroup = 0
+[TISR] Timer freq = 1.00, _count = 0-1000000
+[TISR] timer_set_alarm_value = 1000000.00
+Starting  ITimer0 OK, millis() = 670
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1, _timerGroup = 0
+[TISR] Timer freq = 0.33, _count = 0-3000000
+[TISR] timer_set_alarm_value = 3000000.00
+Starting  ITimer1 OK, millis() = 691
 Stop ITimer0, millis() = 5001
-ITimer1 called, millis() = 6702
-ITimer1 called, millis() = 9702
 Start ITimer0, millis() = 10002
-ITimer0 called, millis() = 11002
-ITimer0 called, millis() = 12002
-ITimer1 called, millis() = 12702
-ITimer0 called, millis() = 13002
-ITimer0 called, millis() = 14002
 Stop ITimer1, millis() = 15001
-ITimer0 called, millis() = 15002
 Stop ITimer0, millis() = 15003
 Start ITimer0, millis() = 20004
-ITimer0 called, millis() = 21004
-ITimer0 called, millis() = 22004
-ITimer0 called, millis() = 23004
-ITimer0 called, millis() = 24004
-ITimer0 called, millis() = 25004
 Stop ITimer0, millis() = 25005
 Start ITimer1, millis() = 30002
 Start ITimer0, millis() = 30006
-ITimer0 called, millis() = 31006
-ITimer0 called, millis() = 32006
-ITimer1 called, millis() = 33002
-ITimer0 called, millis() = 33006
-ITimer0 called, millis() = 34006
-ITimer0 called, millis() = 35006
 ```
 
 ---
 
 
-### 3. Change_Interval on ESP32_S2_DEV
+### 2. Change_Interval on ESP32_S2_DEV
 
 The following is the sample terminal output when running example [Change_Interval](examples/Change_Interval) to demonstrate how to change Timer Interval on-the-fly
 
 ```
 Starting Change_Interval on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.4.0
+ESP32_S2_TimerInterrupt v1.5.0
 CPU Frequency = 240 MHz
-[TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
-[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
-[TISR] _timerIndex = 0 , _timerGroup = 0
-[TISR] _count = 0 - 2000000
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 0, _timerGroup = 0
+[TISR] Timer freq = 0.50, _count = 0-2000000
 [TISR] timer_set_alarm_value = 2000000.00
-ITimer0: millis() = 720
-Starting  ITimer0 OK, millis() = 724
-[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1 , _fre = 1000000
-[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
-[TISR] _timerIndex = 1 , _timerGroup = 0
-[TISR] _count = 0 - 5000000
+Starting  ITimer0 OK, millis() = 677
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1, _timerGroup = 0
+[TISR] Timer freq = 0.20, _count = 0-5000000
 [TISR] timer_set_alarm_value = 5000000.00
-ITimer1: millis() = 746
-Starting  ITimer1 OK, millis() = 749
-ITimer0: millis() = 2715
-ITimer0: millis() = 4715
-ITimer1: millis() = 5741
-ITimer0: millis() = 6715
-ITimer0: millis() = 8715
+Starting  ITimer1 OK, millis() = 698
 Time = 10001, Timer0Count = 5, Timer1Count = 2
-ITimer0: millis() = 10715
-ITimer1: millis() = 10741
-ITimer0: millis() = 12715
-ITimer0: millis() = 14715
-ITimer1: millis() = 15741
-ITimer0: millis() = 16715
-ITimer0: millis() = 18715
 Time = 20002, Timer0Count = 10, Timer1Count = 4
-[TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
-[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
-[TISR] _timerIndex = 0 , _timerGroup = 0
-[TISR] _count = 0 - 4000000
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 0, _timerGroup = 0
+[TISR] Timer freq = 0.25, _count = 0-4000000
 [TISR] timer_set_alarm_value = 4000000.00
-[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1 , _fre = 1000000
-[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
-[TISR] _timerIndex = 1 , _timerGroup = 0
-[TISR] _count = 0 - 10000000
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1, _timerGroup = 0
+[TISR] Timer freq = 0.10, _count = 0-10000000
 [TISR] timer_set_alarm_value = 10000000.00
 Changing Interval, Timer0 = 4000,  Timer1 = 10000
-ITimer0: millis() = 24011
-ITimer0: millis() = 28011
 Time = 30003, Timer0Count = 12, Timer1Count = 4
-ITimer1: millis() = 30031
-ITimer0: millis() = 32011
-ITimer0: millis() = 36011
-
 ```
 
 ---
 
-### 4. Argument_None on ESP32_S2_DEV
+### 3. Argument_None on ESP32_S2_DEV
 
 The following is the sample terminal output when running example [Argument_None](examples/Argument_None)
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.4.0
+ESP32_S2_TimerInterrupt v1.5.0
 CPU Frequency = 240 MHz
-[TISR] ESP32_S2_TimerInterrupt: _timerNo = 0 , _fre = 1000000
-[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
-[TISR] _timerIndex = 0 , _timerGroup = 0
-[TISR] _count = 0 - 1000000
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 0, _timerGroup = 0
+[TISR] Timer freq = 1.00, _count = 0-1000000
 [TISR] timer_set_alarm_value = 1000000.00
-ITimer0: millis() = 713
-Starting  ITimer0 OK, millis() = 717
-[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1 , _fre = 1000000
-[TISR] TIMER_BASE_CLK = 80000000 , TIMER_DIVIDER = 80
-[TISR] _timerIndex = 1 , _timerGroup = 0
-[TISR] _count = 0 - 5000000
+Starting  ITimer0 OK, millis() = 669
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1, _timerGroup = 0
+[TISR] Timer freq = 0.20, _count = 0-5000000
 [TISR] timer_set_alarm_value = 5000000.00
-ITimer1: millis() = 739
-Starting  ITimer1 OK, millis() = 742
-ITimer0: millis() = 1708
-ITimer0: millis() = 2708
-ITimer0: millis() = 3708
-ITimer0: millis() = 4708
-ITimer0: millis() = 5708
-ITimer1: millis() = 5733
-ITimer0: millis() = 6708
-ITimer0: millis() = 7708
-ITimer0: millis() = 8708
-ITimer0: millis() = 9708
-ITimer0: millis() = 10708
-ITimer1: millis() = 10733
-ITimer0: millis() = 11708
-ITimer0: millis() = 12708
-ITimer0: millis() = 13708
-ITimer0: millis() = 14708
-ITimer0: millis() = 15708
-ITimer1: millis() = 15733
+Starting  ITimer1 OK, millis() = 690
 ```
 
 ---
 
-### 5. ISR_16_Timers_Array_Complex on ESP32_S2_DEV
+### 4. ISR_16_Timers_Array_Complex on ESP32_S2_DEV
 
 The following is the sample terminal output when running example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) on **ESP32S2_DEV** to demonstrate of ISR Hardware Timer, especially when system is very busy or blocked. The 16 independent ISR timers are programmed to be activated repetitively after certain intervals, is activated exactly after that programmed interval !!!
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.4.0
+ESP32_S2_TimerInterrupt v1.5.0
 CPU Frequency = 240 MHz
-Starting ITimer OK, millis() = 2601
-SimpleTimer : 2, ms : 12607, Dms : 10005
-Timer : 0, programmed : 5000, actual : 5009
-Timer : 1, programmed : 10000, actual : 0
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1, _timerGroup = 0
+[TISR] Timer freq = 100.00, _count = 0-10000
+[TISR] timer_set_alarm_value = 10000.00
+Starting ITimer OK, millis() = 2569
+SimpleTimer : 2, ms : 12584, Dms : 10005
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
 Timer : 2, programmed : 15000, actual : 0
 Timer : 3, programmed : 20000, actual : 0
 Timer : 4, programmed : 25000, actual : 0
@@ -1042,11 +771,11 @@ Timer : 12, programmed : 65000, actual : 0
 Timer : 13, programmed : 70000, actual : 0
 Timer : 14, programmed : 75000, actual : 0
 Timer : 15, programmed : 80000, actual : 0
-SimpleTimer : 2, ms : 22664, Dms : 10057
+SimpleTimer : 2, ms : 22651, Dms : 10067
 Timer : 0, programmed : 5000, actual : 5000
 Timer : 1, programmed : 10000, actual : 10000
-Timer : 2, programmed : 15000, actual : 15009
-Timer : 3, programmed : 20000, actual : 20009
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
 Timer : 4, programmed : 25000, actual : 0
 Timer : 5, programmed : 30000, actual : 0
 Timer : 6, programmed : 35000, actual : 0
@@ -1059,13 +788,13 @@ Timer : 12, programmed : 65000, actual : 0
 Timer : 13, programmed : 70000, actual : 0
 Timer : 14, programmed : 75000, actual : 0
 Timer : 15, programmed : 80000, actual : 0
-SimpleTimer : 2, ms : 32722, Dms : 10058
+SimpleTimer : 2, ms : 32718, Dms : 10067
 Timer : 0, programmed : 5000, actual : 5000
 Timer : 1, programmed : 10000, actual : 10000
 Timer : 2, programmed : 15000, actual : 15000
-Timer : 3, programmed : 20000, actual : 20009
-Timer : 4, programmed : 25000, actual : 25009
-Timer : 5, programmed : 30000, actual : 30009
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
 Timer : 6, programmed : 35000, actual : 0
 Timer : 7, programmed : 40000, actual : 0
 Timer : 8, programmed : 45000, actual : 0
@@ -1076,75 +805,7 @@ Timer : 12, programmed : 65000, actual : 0
 Timer : 13, programmed : 70000, actual : 0
 Timer : 14, programmed : 75000, actual : 0
 Timer : 15, programmed : 80000, actual : 0
-SimpleTimer : 2, ms : 42781, Dms : 10059
-Timer : 0, programmed : 5000, actual : 5000
-Timer : 1, programmed : 10000, actual : 10000
-Timer : 2, programmed : 15000, actual : 15000
-Timer : 3, programmed : 20000, actual : 20000
-Timer : 4, programmed : 25000, actual : 25009
-Timer : 5, programmed : 30000, actual : 30009
-Timer : 6, programmed : 35000, actual : 35009
-Timer : 7, programmed : 40000, actual : 40009
-Timer : 8, programmed : 45000, actual : 0
-Timer : 9, programmed : 50000, actual : 0
-Timer : 10, programmed : 55000, actual : 0
-Timer : 11, programmed : 60000, actual : 0
-Timer : 12, programmed : 65000, actual : 0
-Timer : 13, programmed : 70000, actual : 0
-Timer : 14, programmed : 75000, actual : 0
-Timer : 15, programmed : 80000, actual : 0
-SimpleTimer : 2, ms : 52841, Dms : 10060
-Timer : 0, programmed : 5000, actual : 5000
-Timer : 1, programmed : 10000, actual : 10000
-Timer : 2, programmed : 15000, actual : 15000
-Timer : 3, programmed : 20000, actual : 20000
-Timer : 4, programmed : 25000, actual : 25000
-Timer : 5, programmed : 30000, actual : 30009
-Timer : 6, programmed : 35000, actual : 35009
-Timer : 7, programmed : 40000, actual : 40009
-Timer : 8, programmed : 45000, actual : 45009
-Timer : 9, programmed : 50000, actual : 50009
-Timer : 10, programmed : 55000, actual : 0
-Timer : 11, programmed : 60000, actual : 0
-Timer : 12, programmed : 65000, actual : 0
-Timer : 13, programmed : 70000, actual : 0
-Timer : 14, programmed : 75000, actual : 0
-Timer : 15, programmed : 80000, actual : 0
-SimpleTimer : 2, ms : 62902, Dms : 10061
-Timer : 0, programmed : 5000, actual : 5000
-Timer : 1, programmed : 10000, actual : 10000
-Timer : 2, programmed : 15000, actual : 15000
-Timer : 3, programmed : 20000, actual : 20000
-Timer : 4, programmed : 25000, actual : 25000
-Timer : 5, programmed : 30000, actual : 30000
-Timer : 6, programmed : 35000, actual : 35009
-Timer : 7, programmed : 40000, actual : 40009
-Timer : 8, programmed : 45000, actual : 45009
-Timer : 9, programmed : 50000, actual : 50009
-Timer : 10, programmed : 55000, actual : 55009
-Timer : 11, programmed : 60000, actual : 60009
-Timer : 12, programmed : 65000, actual : 0
-Timer : 13, programmed : 70000, actual : 0
-Timer : 14, programmed : 75000, actual : 0
-Timer : 15, programmed : 80000, actual : 0
-SimpleTimer : 2, ms : 72963, Dms : 10061
-Timer : 0, programmed : 5000, actual : 5000
-Timer : 1, programmed : 10000, actual : 10000
-Timer : 2, programmed : 15000, actual : 15000
-Timer : 3, programmed : 20000, actual : 20000
-Timer : 4, programmed : 25000, actual : 25000
-Timer : 5, programmed : 30000, actual : 30000
-Timer : 6, programmed : 35000, actual : 35000
-Timer : 7, programmed : 40000, actual : 40009
-Timer : 8, programmed : 45000, actual : 45009
-Timer : 9, programmed : 50000, actual : 50009
-Timer : 10, programmed : 55000, actual : 55009
-Timer : 11, programmed : 60000, actual : 60009
-Timer : 12, programmed : 65000, actual : 65009
-Timer : 13, programmed : 70000, actual : 70009
-Timer : 14, programmed : 75000, actual : 0
-Timer : 15, programmed : 80000, actual : 0
-SimpleTimer : 2, ms : 83025, Dms : 10062
+SimpleTimer : 2, ms : 42785, Dms : 10067
 Timer : 0, programmed : 5000, actual : 5000
 Timer : 1, programmed : 10000, actual : 10000
 Timer : 2, programmed : 15000, actual : 15000
@@ -1153,94 +814,103 @@ Timer : 4, programmed : 25000, actual : 25000
 Timer : 5, programmed : 30000, actual : 30000
 Timer : 6, programmed : 35000, actual : 35000
 Timer : 7, programmed : 40000, actual : 40000
-Timer : 8, programmed : 45000, actual : 45009
-Timer : 9, programmed : 50000, actual : 50009
-Timer : 10, programmed : 55000, actual : 55009
-Timer : 11, programmed : 60000, actual : 60009
-Timer : 12, programmed : 65000, actual : 65009
-Timer : 13, programmed : 70000, actual : 70009
-Timer : 14, programmed : 75000, actual : 75009
-Timer : 15, programmed : 80000, actual : 80009
-
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 52852, Dms : 10067
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35000
+Timer : 7, programmed : 40000, actual : 40000
+Timer : 8, programmed : 45000, actual : 45000
+Timer : 9, programmed : 50000, actual : 50000
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 62919, Dms : 10067
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35000
+Timer : 7, programmed : 40000, actual : 40000
+Timer : 8, programmed : 45000, actual : 45000
+Timer : 9, programmed : 50000, actual : 50000
+Timer : 10, programmed : 55000, actual : 55000
+Timer : 11, programmed : 60000, actual : 60000
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 72986, Dms : 10067
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35000
+Timer : 7, programmed : 40000, actual : 40000
+Timer : 8, programmed : 45000, actual : 45000
+Timer : 9, programmed : 50000, actual : 50000
+Timer : 10, programmed : 55000, actual : 55000
+Timer : 11, programmed : 60000, actual : 60000
+Timer : 12, programmed : 65000, actual : 65000
+Timer : 13, programmed : 70000, actual : 70000
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 83053, Dms : 10067
+Timer : 0, programmed : 5000, actual : 5000
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15000
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25000
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35000
+Timer : 7, programmed : 40000, actual : 40000
+Timer : 8, programmed : 45000, actual : 45000
+Timer : 9, programmed : 50000, actual : 50000
+Timer : 10, programmed : 55000, actual : 55000
+Timer : 11, programmed : 60000, actual : 60000
+Timer : 12, programmed : 65000, actual : 65000
+Timer : 13, programmed : 70000, actual : 70000
+Timer : 14, programmed : 75000, actual : 75000
+Timer : 15, programmed : 80000, actual : 80000
 ```
 
 ---
 
-### 6. ISR_16_Timers_Array on ESP32_S2_DEV
+### 5. ISR_16_Timers_Array on ESP32_S2_DEV
 
 The following is the sample terminal output when running example [ISR_16_Timers_Array](examples/ISR_16_Timers_Array) on **ESP32S2_DEV** to demonstrate of ISR Hardware Timer, especially when system is very busy or blocked. The 16 independent ISR timers are programmed to be activated repetitively after certain intervals, is activated exactly after that programmed interval !!!
 
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.4.0
+ESP32_S2_TimerInterrupt v1.5.0
 CPU Frequency = 240 MHz
-Starting ITimer OK, millis() = 2603
-1s: Delta ms = 1001, ms = 3604
-1s: Delta ms = 1000, ms = 4604
-2s: Delta ms = 2001, ms = 4604
-1s: Delta ms = 1000, ms = 5604
-3s: Delta ms = 3001, ms = 5604
-1s: Delta ms = 1000, ms = 6604
-2s: Delta ms = 2000, ms = 6604
-4s: Delta ms = 4001, ms = 6604
-1s: Delta ms = 1000, ms = 7604
-5s: Delta ms = 5001, ms = 7604
-1s: Delta ms = 1000, ms = 8604
-2s: Delta ms = 2000, ms = 8604
-3s: Delta ms = 3000, ms = 8604
-6s: Delta ms = 6001, ms = 8604
-1s: Delta ms = 1000, ms = 9604
-7s: Delta ms = 7001, ms = 9604
-1s: Delta ms = 1000, ms = 10604
-2s: Delta ms = 2000, ms = 10604
-4s: Delta ms = 4000, ms = 10604
-8s: Delta ms = 8001, ms = 10604
-1s: Delta ms = 1000, ms = 11604
-3s: Delta ms = 3000, ms = 11604
-9s: Delta ms = 9001, ms = 11604
-1s: Delta ms = 1000, ms = 12604
-2s: Delta ms = 2000, ms = 12604
-5s: Delta ms = 5000, ms = 12604
-10s: Delta ms = 10001, ms = 12604
-simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10007
-1s: Delta ms = 1000, ms = 13604
-11s: Delta ms = 11001, ms = 13604
-1s: Delta ms = 1000, ms = 14604
-2s: Delta ms = 2000, ms = 14604
-3s: Delta ms = 3000, ms = 14604
-4s: Delta ms = 4000, ms = 14604
-6s: Delta ms = 6000, ms = 14604
-12s: Delta ms = 12004, ms = 14607
-1s: Delta ms = 1000, ms = 15604
-13s: Delta ms = 13001, ms = 15604
-1s: Delta ms = 1000, ms = 16604
-2s: Delta ms = 2000, ms = 16604
-7s: Delta ms = 7000, ms = 16604
-14s: Delta ms = 14001, ms = 16604
-1s: Delta ms = 1000, ms = 17604
-3s: Delta ms = 3000, ms = 17604
-5s: Delta ms = 5000, ms = 17604
-15s: Delta ms = 15001, ms = 17604
-1s: Delta ms = 1000, ms = 18604
-2s: Delta ms = 2000, ms = 18604
-4s: Delta ms = 4000, ms = 18604
-8s: Delta ms = 8000, ms = 18604
-16s: Delta ms = 16001, ms = 18604
-1s: Delta ms = 1000, ms = 19604
-1s: Delta ms = 1000, ms = 20604
-2s: Delta ms = 2000, ms = 20604
-3s: Delta ms = 3000, ms = 20604
-6s: Delta ms = 6000, ms = 20604
-9s: Delta ms = 9000, ms = 20604
-1s: Delta ms = 1000, ms = 21604
-1s: Delta ms = 1000, ms = 22604
-2s: Delta ms = 2000, ms = 22604
-4s: Delta ms = 4000, ms = 22604
-5s: Delta ms = 5000, ms = 22604
-10s: Delta ms = 10000, ms = 22604
-simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10004
-
+[TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
+[TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
+[TISR] _timerIndex = 1, _timerGroup = 0
+[TISR] Timer freq = 1000.00, _count = 0-1000
+[TISR] timer_set_alarm_value = 1000.00
+Starting ITimer OK, millis() = 2565
+simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10015
+simpleTimerDoingSomething2s: Delta programmed ms = 2000, actual = 10005
 ```
 
 ---
@@ -1272,19 +942,6 @@ Sometimes, the library will only work if you update the board core to the latest
 ---
 ---
 
-## Releases
-
-### Releases v1.4.0
-
-1. Fix compiler errors due to conflict to some libraries.
-2. Add complex examples.
-
-### Releases v1.3.0
-
-1. Initial coding to support ESP32-S2
-2. Sync with [ESP32TimerInterrupt library v1.3.0](https://github.com/khoih-prog/ESP32TimerInterrupt)
----
----
 
 ### Issues
 
@@ -1306,6 +963,10 @@ Submit issues to: [ESP32_S2_TimerInterrupt issues](https://github.com/khoih-prog
 4. Similar features for remaining Arduino boards such as SAMD21, SAMD51, SAM-DUE, nRF52, ESP8266, STM32, etc.
 5. Fix compiler errors due to conflict to some libraries.
 6. Add complex examples.
+7. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
+8. Avoid deprecated functions.
+9. Optimize library code by using `reference-passing` instead of `value-passing`
+
 
 ---
 ---
