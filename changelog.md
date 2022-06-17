@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.5.1](#releases-v151)
   * [Releases v1.5.0](#releases-v150)
   * [Releases v1.4.0](#releases-v140)
   * [Releases v1.3.0](#releases-v130)
@@ -20,6 +21,11 @@
 ---
 
 ## Changelog
+
+### Releases v1.5.1
+
+1. Add support to new Adafruit board QTPY_ESP32S2
+2. Update examples
 
 ### Releases v1.5.0
 

@@ -24,13 +24,14 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.5.0
+  Version: 1.5.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.3.0   K Hoang      06/05/2019 Initial coding. Sync with ESP32TimerInterrupt v1.3.0
   1.4.0   K Hoang      01/06/2021 Add complex examples. Fix compiler errors due to conflict to some libraries.
   1.5.0   K.Hoang      23/01/2022 Avoid deprecated functions. Fix `multiple-definitions` linker error
+  1.5.1   K Hoang      16/06/2022 Add support to new Adafruit board QTPY_ESP32S2
 *****************************************************************************************************************************/
 
 #pragma once
@@ -39,19 +40,19 @@
 #define ISR_TIMER_GENERIC_HPP
 
 #if !( ARDUINO_ESP32S2_DEV || ARDUINO_FEATHERS2 || ARDUINO_ESP32S2_THING_PLUS || ARDUINO_MICROS2 || \
-        ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
-        ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM )
+       ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
+       ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM || ARDUINO_ADAFRUIT_QTPY_ESP32S2)
   #error This code is intended to run on the ESP32-S2 platform! Please check your Tools->Board setting.
 #endif
 
 #ifndef ESP32_S2_TIMER_INTERRUPT_VERSION
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION            "ESP32_S2_TimerInterrupt v1.5.0"
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION            "ESP32_S2_TimerInterrupt v1.5.1"
   
   #define ESP32_S2_TIMER_INTERRUPT_VERSION_MAJOR      1
   #define ESP32_S2_TIMER_INTERRUPT_VERSION_MINOR      5
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION_PATCH      0
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION_PATCH      1
 
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION_INT        1005000  
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION_INT        1005001
 #endif
 
 #include "TimerInterrupt_Generic_Debug.h"

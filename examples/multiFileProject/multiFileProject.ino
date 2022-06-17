@@ -15,12 +15,6 @@
 
 // To demo how to include files in multi-file Projects
 
-#if !( ARDUINO_ESP32S2_DEV || ARDUINO_FEATHERS2 || ARDUINO_ESP32S2_THING_PLUS || ARDUINO_MICROS2 || \
-       ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
-       ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM )
-  #error This code is intended to run on the ESP32-S2 platform! Please check your Tools->Board setting.
-#endif
-
 #include "multiFileProject.h"
 
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
