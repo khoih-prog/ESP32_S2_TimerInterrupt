@@ -24,7 +24,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.5.1
+  Version: 1.6.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -32,6 +32,7 @@
   1.4.0   K Hoang      01/06/2021 Add complex examples. Fix compiler errors due to conflict to some libraries.
   1.5.0   K.Hoang      23/01/2022 Avoid deprecated functions. Fix `multiple-definitions` linker error
   1.5.1   K Hoang      16/06/2022 Add support to new Adafruit board QTPY_ESP32S2
+  1.6.0   K Hoang      10/08/2022 Suppress errors and warnings for new ESP32 core
  *****************************************************************************************************************************/
 
 #pragma once
