@@ -25,7 +25,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.6.0
+  Version: 1.7.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -34,6 +34,7 @@
   1.5.0   K.Hoang      23/01/2022 Avoid deprecated functions. Fix `multiple-definitions` linker error
   1.5.1   K Hoang      16/06/2022 Add support to new Adafruit board QTPY_ESP32S2
   1.6.0   K Hoang      10/08/2022 Suppress errors and warnings for new ESP32 core
+  1.7.0   K Hoang      11/08/2022 Suppress warnings and add support for more ESP32_S2 boards
 *****************************************************************************************************************************/
 
 #pragma once
@@ -43,20 +44,23 @@
 
 #if !( ARDUINO_ESP32S2_DEV || ARDUINO_FEATHERS2 || ARDUINO_ESP32S2_THING_PLUS || ARDUINO_MICROS2 || \
        ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
-       ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM || ARDUINO_ADAFRUIT_QTPY_ESP32S2)
+       ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM || ARDUINO_ADAFRUIT_QTPY_ESP32S2 || ARDUINO_ESP32S2_USB || \
+       ARDUINO_FEATHERS2NEO || ARDUINO_TINYS2 || ARDUINO_RMP || ARDUINO_LOLIN_S2_MINI || ARDUINO_LOLIN_S2_PICO || \
+       ARDUINO_ADAFRUIT_FEATHER_ESP32S2 || ARDUINO_ADAFRUIT_FEATHER_ESP32S2_TFT  || ARDUINO_atmegazero_esp32s2 || \
+       ARDUINO_DYM || ARDUINO_FRANZININHO_WIFI  || ARDUINO_FRANZININHO_WIFI_MSC )
   #error This code is intended to run on the ESP32-S2 platform! Please check your Tools->Board setting.
 #else
   #define USING_ESP32_S2_TIMER_INTERRUPT        true  
 #endif
 
 #ifndef ESP32_S2_TIMER_INTERRUPT_VERSION
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION            "ESP32_S2_TimerInterrupt v1.6.0"
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION            "ESP32_S2_TimerInterrupt v1.7.0"
   
   #define ESP32_S2_TIMER_INTERRUPT_VERSION_MAJOR      1
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION_MINOR      6
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION_MINOR      7
   #define ESP32_S2_TIMER_INTERRUPT_VERSION_PATCH      0
 
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION_INT        1006000
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION_INT        1007000
 #endif
 
 #ifndef TIMER_INTERRUPT_DEBUG

@@ -114,7 +114,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Currently supported Boards
 
-1. ESP32S2-based boards, such as `ESP32S2_DEV`, `ESP32_S2 Saola`, Adafruit `QTPY_ESP32S2`, etc.
+1. ESP32_S2-based boards, such as `ESP32S2_DEV`, `ESP32_S2 Saola`, Adafruit QTPY_ESP32S2, ESP32S2 Native USB, UM FeatherS2 Neo, UM TinyS2, UM RMP, microS2, etc.
 
 ---
 
@@ -318,7 +318,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.6.0
+ESP32_S2_TimerInterrupt v1.7.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -351,7 +351,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.6.0
+ESP32_S2_TimerInterrupt v1.7.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -389,7 +389,7 @@ The following is the sample terminal output when running example [Argument_None]
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.6.0
+ESP32_S2_TimerInterrupt v1.7.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -413,7 +413,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.6.0
+ESP32_S2_TimerInterrupt v1.7.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -568,7 +568,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.6.0
+ESP32_S2_TimerInterrupt v1.7.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -624,16 +624,17 @@ Submit issues to: [ESP32_S2_TimerInterrupt issues](https://github.com/khoih-prog
 
 ## DONE
 
-1. Basic hardware timers for ESP32-S2.
-2. More hardware-initiated software-enabled timers
-3. Longer time interval
-4. Similar features for remaining Arduino boards such as SAMD21, SAMD51, SAM-DUE, nRF52, ESP8266, STM32, etc.
-5. Fix compiler errors due to conflict to some libraries.
-6. Add complex examples.
-7. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
-8. Avoid deprecated functions.
-9. Optimize library code by using `reference-passing` instead of `value-passing`
-
+ 1. Basic hardware timers for ESP32-S2.
+ 2. More hardware-initiated software-enabled timers
+ 3. Longer time interval
+ 4. Similar features for remaining Arduino boards such as SAMD21, SAMD51, SAM-DUE, nRF52, ESP8266, STM32, etc.
+ 5. Fix compiler errors due to conflict to some libraries.
+ 6. Add complex examples.
+ 7. Fix `multiple-definitions` linker error. Drop `src_cpp` and `src_h` directories
+ 8. Avoid deprecated functions.
+ 9. Optimize library code by using `reference-passing` instead of `value-passing`
+10. Add support to many more boards, such as
+  - ESP32_S2 : ESP32S2 Native USB, UM FeatherS2 Neo, UM TinyS2, UM RMP, microS2, LOLIN_S2_MINI, LOLIN_S2_PICO, ADAFRUIT_FEATHER_ESP32S2, ADAFRUIT_FEATHER_ESP32S2_TFT, ATMegaZero ESP32-S2, Deneyap Mini, FRANZININHO_WIFI, FRANZININHO_WIFI_MSC
 
 ---
 ---
