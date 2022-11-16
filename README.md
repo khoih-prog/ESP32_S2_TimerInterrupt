@@ -2,12 +2,15 @@
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP32_S2_TimerInterrupt.svg?)](https://www.ardu-badge.com/ESP32_S2_TimerInterrupt)
 [![GitHub release](https://img.shields.io/github/release/khoih-prog/ESP32_S2_TimerInterrupt.svg)](https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/releases)
-[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/main/LICENSE)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP32_S2_TimerInterrupt.svg)](http://github.com/khoih-prog/ESP32_S2_TimerInterrupt/issues)
 
+
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-ESP32_S2_TimerInterrupt/count.svg" title="ESP32_S2_TimerInterrupt Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-ESP32_S2_TimerInterrupt/count.svg" style="height: 30px;width: 200px;"></a>
 
 ---
 ---
@@ -131,7 +134,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ## Prerequisites
 
 1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
-2. [`ESP32 Core 2.0.4+`](https://github.com/espressif/arduino-esp32) for ESP32-S2-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
+2. [`ESP32 Core 2.0.5+`](https://github.com/espressif/arduino-esp32) for ESP32-S2-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
 
 ---
 ---
@@ -148,9 +151,9 @@ You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/
 Another way to install is to:
 
 1. Navigate to [**ESP32_S2_TimerInterrupt**](https://github.com/khoih-prog/ESP32_S2_TimerInterrupt) page.
-2. Download the latest release `ESP32_S2_TimerInterrupt-master.zip`.
-3. Extract the zip file to `ESP32_S2_TimerInterrupt-master` directory 
-4. Copy whole `ESP32_S2_TimerInterrupt-master` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
+2. Download the latest release `ESP32_S2_TimerInterrupt-main.zip`.
+3. Extract the zip file to `ESP32_S2_TimerInterrupt-main` directory 
+4. Copy whole `ESP32_S2_TimerInterrupt-main` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
 
 ### VS Code & PlatformIO
 
@@ -174,13 +177,13 @@ In Platform IO, to fix the error when using [`LittleFS_esp32 v1.0`](https://gith
 
 from
 
-```
+```cpp
 //#define CONFIG_LITTLEFS_FOR_IDF_3_2   /* For old IDF - like in release 1.0.4 */
 ```
 
 to
 
-```
+```cpp
 #define CONFIG_LITTLEFS_FOR_IDF_3_2   /* For old IDF - like in release 1.0.4 */
 ```
 
@@ -197,7 +200,7 @@ The current library implementation, using `xyz-Impl.h` instead of standard `xyz.
 
 You can include these `.hpp` or `.h` files
 
-```
+```cpp
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "ESP32_S2_TimerInterrupt.h"     //https://github.com/khoih-prog/ESP32_S2_TimerInterrupt
 
@@ -207,7 +210,7 @@ You can include these `.hpp` or `.h` files
 
 in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-```
+```cpp
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "ESP32_S2_ISR_Timer.h"           //https://github.com/khoih-prog/ESP32_S2_TimerInterrupt
 ```
@@ -225,22 +228,22 @@ Please have a look at [**ESP_WiFiManager Issue 39: Not able to read analog port 
 
 #### 2. ESP32 ADCs functions
 
-- ADC1 controls ADC function for pins **GPIO32-GPIO39**
-- ADC2 controls ADC function for pins **GPIO0, 2, 4, 12-15, 25-27**
+- `ADC1` controls ADC function for pins **GPIO32-GPIO39**
+- `ADC2` controls ADC function for pins **GPIO0, 2, 4, 12-15, 25-27**
 
 #### 3.. ESP32 WiFi uses ADC2 for WiFi functions
 
-Look in file [**adc_common.c**](https://github.com/espressif/esp-idf/blob/master/components/driver/adc_common.c#L61)
+Look in file [**adc_common.c**](https://github.com/espressif/esp-idf/blob/master/components/driver/adc_common.c)
 
-> In ADC2, there're two locks used for different cases:
+> In `ADC2`, there're two locks used for different cases:
 > 1. lock shared with app and Wi-Fi:
 >    ESP32:
->         When Wi-Fi using the ADC2, we assume it will never stop, so app checks the lock and returns immediately if failed.
+>         When Wi-Fi using the `ADC2`, we assume it will never stop, so app checks the lock and returns immediately if failed.
 >    ESP32S2:
 >         The controller's control over the ADC is determined by the arbiter. There is no need to control by lock.
 > 
 > 2. lock shared between tasks:
->    when several tasks sharing the ADC2, we want to guarantee
+>    when several tasks sharing the `ADC2`, we want to guarantee
 >    all the requests will be handled.
 >    Since conversions are short (about 31us), app returns the lock very soon,
 >    we use a spinlock to stand there waiting to do conversions one by one.
@@ -248,10 +251,10 @@ Look in file [**adc_common.c**](https://github.com/espressif/esp-idf/blob/master
 > adc2_spinlock should be acquired first, then adc2_wifi_lock or rtc_spinlock.
 
 
-- In order to use ADC2 for other functions, we have to **acquire complicated firmware locks and very difficult to do**
-- So, it's not advisable to use ADC2 with WiFi/BlueTooth (BT/BLE).
-- Use ADC1, and pins GPIO32-GPIO39
-- If somehow it's a must to use those pins serviced by ADC2 (**GPIO0, 2, 4, 12, 13, 14, 15, 25, 26 and 27**), use the **fix mentioned at the end** of [**ESP_WiFiManager Issue 39: Not able to read analog port when using the autoconnect example**](https://github.com/khoih-prog/ESP_WiFiManager/issues/39) to work with ESP32 WiFi/BlueTooth (BT/BLE).
+- In order to use `ADC2` for other functions, we have to **acquire complicated firmware locks and very difficult to do**
+- So, it's not advisable to use `ADC2` with WiFi/BlueTooth (BT/BLE).
+- Use `ADC1`, and pins `GPIO32-GPIO39`
+- If somehow it's a must to use those pins serviced by `ADC2` (**GPIO0, 2, 4, 12, 13, 14, 15, 25, 26 and 27**), use the **fix mentioned at the end** of [**ESP_WiFiManager Issue 39: Not able to read analog port when using the autoconnect example**](https://github.com/khoih-prog/ESP_WiFiManager/issues/39) to work with ESP32 WiFi/BlueTooth (BT/BLE).
 
 ---
 ---
@@ -305,7 +308,7 @@ Before using any Timer, you have to make sure the Timer has not been used by any
 ### Example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
 
 
-https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/62017efd2e5428eb7ef428a16a40b2a9d911d9f9/examples/ISR_16_Timers_Array_Complex/ISR_16_Timers_Array_Complex.ino#L40-L369
+https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/eb0da8213869167cb2de5a07eb84d261a9fb47fb/examples/ISR_16_Timers_Array_Complex/ISR_16_Timers_Array_Complex.ino#L40-L384
 
 ---
 ---
@@ -318,7 +321,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.7.0
+ESP32_S2_TimerInterrupt v1.8.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -351,7 +354,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.7.0
+ESP32_S2_TimerInterrupt v1.8.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -389,7 +392,7 @@ The following is the sample terminal output when running example [Argument_None]
 
 ```
 Starting Argument_None on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.7.0
+ESP32_S2_TimerInterrupt v1.8.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 0, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -413,7 +416,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.7.0
+ESP32_S2_TimerInterrupt v1.8.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -568,7 +571,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array on ESP32S2_DEV
-ESP32_S2_TimerInterrupt v1.7.0
+ESP32_S2_TimerInterrupt v1.8.0
 CPU Frequency = 240 MHz
 [TISR] ESP32_S2_TimerInterrupt: _timerNo = 1, TIM_CLOCK_FREQ = 1000000.00
 [TISR] TIMER_BASE_CLK = 80000000, TIMER_DIVIDER = 80
@@ -635,6 +638,8 @@ Submit issues to: [ESP32_S2_TimerInterrupt issues](https://github.com/khoih-prog
  9. Optimize library code by using `reference-passing` instead of `value-passing`
 10. Add support to many more boards, such as
   - ESP32_S2 : ESP32S2 Native USB, UM FeatherS2 Neo, UM TinyS2, UM RMP, microS2, LOLIN_S2_MINI, LOLIN_S2_PICO, ADAFRUIT_FEATHER_ESP32S2, ADAFRUIT_FEATHER_ESP32S2_TFT, ATMegaZero ESP32-S2, Deneyap Mini, FRANZININHO_WIFI, FRANZININHO_WIFI_MSC
+11. Use `allman astyle` and add `utils`
+
 
 ---
 ---
@@ -658,12 +663,12 @@ If you want to contribute to this project:
 
 ### License
 
-- The library is licensed under [MIT](https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/master/LICENSE)
+- The library is licensed under [MIT](https://github.com/khoih-prog/ESP32_S2_TimerInterrupt/blob/main/LICENSE)
 
 ---
 
 ## Copyright
 
-Copyright 2021- Khoi Hoang
+Copyright (C) 2021- Khoi Hoang
 
 
