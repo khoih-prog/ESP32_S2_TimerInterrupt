@@ -135,6 +135,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
 2. [`ESP32 Core 2.0.5+`](https://github.com/espressif/arduino-esp32) for ESP32-S2-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/).
+3. [`SimpleTimer library`](https://github.com/jfturcot/SimpleTimer) to use with some examples.
 
 ---
 ---
