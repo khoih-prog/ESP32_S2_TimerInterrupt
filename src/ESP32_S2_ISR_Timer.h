@@ -24,7 +24,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.7.0
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -34,6 +34,7 @@
   1.5.1   K Hoang      16/06/2022 Add support to new Adafruit board QTPY_ESP32S2
   1.6.0   K Hoang      10/08/2022 Suppress errors and warnings for new ESP32 core
   1.7.0   K Hoang      11/08/2022 Suppress warnings and add support for more ESP32_S2 boards
+  1.8.0   K Hoang      16/11/2022 Fix doubled time for ESP32_S2
 *****************************************************************************************************************************/
 
 #pragma once

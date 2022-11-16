@@ -24,7 +24,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.7.0
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -34,6 +34,7 @@
   1.5.1   K Hoang      16/06/2022 Add support to new Adafruit board QTPY_ESP32S2
   1.6.0   K Hoang      10/08/2022 Suppress errors and warnings for new ESP32 core
   1.7.0   K Hoang      11/08/2022 Suppress warnings and add support for more ESP32_S2 boards
+  1.8.0   K Hoang      16/11/2022 Fix doubled time for ESP32_S2
  *****************************************************************************************************************************/
 
 #pragma once
@@ -41,11 +42,15 @@
 #ifndef TIMERINTERRUPT_GENERIC_DEBUG_H
 #define TIMERINTERRUPT_GENERIC_DEBUG_H
 
+////////////////////////////////////////
+
 #ifdef TIMERINTERRUPT_DEBUG_PORT
   #define TISR_DBG_PORT      TIMERINTERRUPT_DEBUG_PORT
 #else
   #define TISR_DBG_PORT      Serial
 #endif
+
+////////////////////////////////////////
 
 // Change _TIMERINTERRUPT_LOGLEVEL_ to set tracing and logging verbosity
 // 0: DISABLED: no logging
@@ -58,7 +63,7 @@
   #define _TIMERINTERRUPT_LOGLEVEL_       1
 #endif
 
-//////////////////////////////////////////
+////////////////////////////////////////
 
 const char TISR_MARK[]  = "[TISR] ";
 const char TISR_SP[]    = " ";
@@ -69,7 +74,7 @@ const char TISR_SP[]    = " ";
 #define TISR_PRINT_MARK   TISR_PRINT(TISR_MARK)
 #define TISR_PRINT_SP     TISR_PRINT(TISR_SP)
 
-///////////////////////////////////////
+////////////////////////////////////////
 
 #define TISR_LOGERROR(x)         if(_TIMERINTERRUPT_LOGLEVEL_>0) { TISR_PRINT_MARK; TISR_PRINTLN(x); }
 #define TISR_LOGERROR0(x)        if(_TIMERINTERRUPT_LOGLEVEL_>0) { TISR_PRINT(x); }
@@ -78,7 +83,7 @@ const char TISR_SP[]    = " ";
 #define TISR_LOGERROR3(x,y,z,w)  if(_TIMERINTERRUPT_LOGLEVEL_>0) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINTLN(w); }
 #define TISR_LOGERROR5(x,y,z,w, xx, yy)  if(_TIMERINTERRUPT_LOGLEVEL_>0) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINT(w); TISR_PRINT(xx); TISR_PRINTLN(yy); }
 
-///////////////////////////////////////
+////////////////////////////////////////
 
 #define TISR_LOGWARN(x)          if(_TIMERINTERRUPT_LOGLEVEL_>1) { TISR_PRINT_MARK; TISR_PRINTLN(x); }
 #define TISR_LOGWARN0(x)         if(_TIMERINTERRUPT_LOGLEVEL_>1) { TISR_PRINT(x); }
@@ -87,7 +92,7 @@ const char TISR_SP[]    = " ";
 #define TISR_LOGWARN3(x,y,z,w)   if(_TIMERINTERRUPT_LOGLEVEL_>1) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINTLN(w); }
 #define TISR_LOGWARN5(x,y,z,w, xx, yy)  if(_TIMERINTERRUPT_LOGLEVEL_>1) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINT(w); TISR_PRINT(xx); TISR_PRINTLN(yy); }
 
-///////////////////////////////////////
+////////////////////////////////////////
 
 #define TISR_LOGINFO(x)          if(_TIMERINTERRUPT_LOGLEVEL_>2) { TISR_PRINT_MARK; TISR_PRINTLN(x); }
 #define TISR_LOGINFO0(x)         if(_TIMERINTERRUPT_LOGLEVEL_>2) { TISR_PRINT(x); }
@@ -96,7 +101,7 @@ const char TISR_SP[]    = " ";
 #define TISR_LOGINFO3(x,y,z,w)   if(_TIMERINTERRUPT_LOGLEVEL_>2) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINTLN(w); }
 #define TISR_LOGINFO5(x,y,z,w, xx, yy)  if(_TIMERINTERRUPT_LOGLEVEL_>2) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINT(w); TISR_PRINT(xx); TISR_PRINTLN(yy); }
 
-///////////////////////////////////////
+////////////////////////////////////////
 
 #define TISR_LOGDEBUG(x)         if(_TIMERINTERRUPT_LOGLEVEL_>3) { TISR_PRINT_MARK; TISR_PRINTLN(x); }
 #define TISR_LOGDEBUG0(x)        if(_TIMERINTERRUPT_LOGLEVEL_>3) { TISR_PRINT(x); }
@@ -105,6 +110,6 @@ const char TISR_SP[]    = " ";
 #define TISR_LOGDEBUG3(x,y,z,w)  if(_TIMERINTERRUPT_LOGLEVEL_>3) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINTLN(w); }
 #define TISR_LOGDEBUG5(x,y,z,w, xx, yy)  if(_TIMERINTERRUPT_LOGLEVEL_>3) { TISR_PRINT_MARK; TISR_PRINT(x); TISR_PRINT(y); TISR_PRINT(z); TISR_PRINT(w); TISR_PRINT(xx); TISR_PRINTLN(yy); }
 
-///////////////////////////////////////
+////////////////////////////////////////
 
 #endif    //TIMERINTERRUPT_GENERIC_DEBUG_H

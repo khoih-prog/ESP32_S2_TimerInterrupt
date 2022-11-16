@@ -24,7 +24,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.7.0
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -34,12 +34,15 @@
   1.5.1   K Hoang      16/06/2022 Add support to new Adafruit board QTPY_ESP32S2
   1.6.0   K Hoang      10/08/2022 Suppress errors and warnings for new ESP32 core
   1.7.0   K Hoang      11/08/2022 Suppress warnings and add support for more ESP32_S2 boards
+  1.8.0   K Hoang      16/11/2022 Fix doubled time for ESP32_S2
 *****************************************************************************************************************************/
 
 #pragma once
 
 #ifndef ISR_TIMER_GENERIC_HPP
 #define ISR_TIMER_GENERIC_HPP
+
+////////////////////////////////////////
 
 #if !( ARDUINO_ESP32S2_DEV || ARDUINO_FEATHERS2 || ARDUINO_ESP32S2_THING_PLUS || ARDUINO_MICROS2 || \
        ARDUINO_METRO_ESP32S2 || ARDUINO_MAGTAG29_ESP32S2 || ARDUINO_FUNHOUSE_ESP32S2 || \
@@ -50,28 +53,27 @@
   #error This code is intended to run on the ESP32-S2 platform! Please check your Tools->Board setting.
 #endif
 
+////////////////////////////////////////
+
 #ifndef ESP32_S2_TIMER_INTERRUPT_VERSION
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION            "ESP32_S2_TimerInterrupt v1.7.0"
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION            "ESP32_S2_TimerInterrupt v1.8.0"
   
   #define ESP32_S2_TIMER_INTERRUPT_VERSION_MAJOR      1
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION_MINOR      7
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION_MINOR      8
   #define ESP32_S2_TIMER_INTERRUPT_VERSION_PATCH      0
 
-  #define ESP32_S2_TIMER_INTERRUPT_VERSION_INT        1007000
+  #define ESP32_S2_TIMER_INTERRUPT_VERSION_INT        1008000
 #endif
+
+////////////////////////////////////////
 
 #include "TimerInterrupt_Generic_Debug.h"
 
+////////////////////////////////////////
+
 #define CONFIG_ESP32_APPTRACE_ENABLE
 
-#if 0
-  #ifndef configMINIMAL_STACK_SIZE
-    #define configMINIMAL_STACK_SIZE    2048
-  #else
-    #undef configMINIMAL_STACK_SIZE
-    #define configMINIMAL_STACK_SIZE    2048
-  #endif
-#endif
+////////////////////////////////////////
 
 #include <stddef.h>
 
@@ -85,10 +87,16 @@
   #endif
 #endif
 
+////////////////////////////////////////
+
 #define ESP32_ISR_Timer ESP32_ISRTimer
+
+////////////////////////////////////////
 
 typedef void (*timer_callback)();
 typedef void (*timer_callback_p)(void *);
+
+////////////////////////////////////////
 
 class ESP32_ISR_Timer 
 {
@@ -168,11 +176,15 @@ class ESP32_ISR_Timer
     // returns the number of used timers
     unsigned getNumTimers();
 
+		////////////////////////////////////////
+
     // returns the number of available timers
     unsigned getNumAvailableTimers() 
     {
       return MAX_NUMBER_TIMERS - numTimers;
     };
+
+		////////////////////////////////////////
 
   private:
     // deferred call constants
@@ -188,6 +200,8 @@ class ESP32_ISR_Timer
     // find the first available slot
     int findFirstFreeSlot();
 
+		////////////////////////////////////////
+
     typedef struct 
     {
       unsigned long prev_millis;        // value returned by the millis() function in the previous run() call
@@ -200,6 +214,8 @@ class ESP32_ISR_Timer
       bool          enabled;            // true if enabled
       unsigned      toBeCalled;         // deferred function call (sort of) - N.B.: only used in run()
     } timer_t;
+
+		////////////////////////////////////////
 
     volatile timer_t timer[MAX_NUMBER_TIMERS];
 
